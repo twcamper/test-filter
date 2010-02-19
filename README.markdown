@@ -1,11 +1,14 @@
-*TestFilter*
-## builds a list of matching test files and a hash which maps test class names to lists of included test method.  Currently, only `Test::Unit` is supported, but `Rspec` support wouldn't be difficult.
+#TestFilter#
+
+Builds a list of matching test files and a hash which maps test class names to lists of included test method.
+
+Currently, only *Test::Unit* is supported, but *Rspec* support wouldn't be difficult.
 
 Test files may be tagged, with this convention:
 
     #Tags: smoke book_customer Find.Customer Story.1234 defect.98
 
-Any line beginning with `[optional white space]#Tags:` anywhere within the file except within a test method def applies to the whole file.  This means that it applies to the
+Any line beginning with *[optional white space]#Tags:* anywhere within the file except within a test method def applies to the whole file.  This means that it applies to the
 test class, and that only one test class per file is supported.
 
 Multiple tag lines are also supported.
@@ -18,9 +21,9 @@ To tag an individual method, do this:
       . . .
     end
 
-See the dummy test files under test/test_data for the tagging possibilities, and test/**_{i,u}test.rb for TestFilter usage.
+See the dummy test files under test/test_data for the tagging possibilities, and *test/**_{i,u}test.rb* for *TestFilter* usage.
 
-One way to filter tests for execution is to extend (ok, monkey patch) `Test::Unit` as shown in `testcase_demo/testcase.rb`, run the filter in a `rake` task, and set `TestCase.tests_per_class`.
+One way to filter tests for execution is to extend (ok, monkey patch) *Test::Unit* as shown in *testcase_demo/testcase.rb*, run the filter in a *rake* task, and set *TestCase.tests_per_class*.
 
     FILE_PATTERN = "./**/*_test.rb"
 
