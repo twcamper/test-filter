@@ -1,4 +1,5 @@
-TestFilter builds a list of matching test files and a hash which maps test class names to lists of included test method.  Currently, only Test::Unit is supported, but Rspec support wouldn't be difficult.
+*TestFilter*
+## builds a list of matching test files and a hash which maps test class names to lists of included test method.  Currently, only `Test::Unit` is supported, but `Rspec` support wouldn't be difficult.
 
 Test files may be tagged, with this convention:
 
@@ -19,7 +20,7 @@ To tag an individual method, do this:
 
 See the dummy test files under test/test_data for the tagging possibilities, and test/**_{i,u}test.rb for TestFilter usage.
 
-One way to filter tests for execution is to extend (ok, monkey patch) Test::Unit as shown in testcase_demo/testcase.rb, run the filter in a `rake` task, and set `TestCase.tests_per_class`.
+One way to filter tests for execution is to extend (ok, monkey patch) `Test::Unit` as shown in `testcase_demo/testcase.rb`, run the filter in a `rake` task, and set `TestCase.tests_per_class`.
 
     FILE_PATTERN = "./**/*_test.rb"
 
