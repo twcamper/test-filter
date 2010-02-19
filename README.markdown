@@ -11,7 +11,8 @@ Currently, only *Test::Unit* is supported, but *Rspec* support wouldn't be diffi
 Any line beginning with *[optional white space]#Tags:* anywhere within the file except within a test method def applies to the whole file.  This means that it applies to the
 test class, and that only one test class per file is supported.
 
-Multiple tag lines are also supported.
+- Case insensitive, since all tags are downcased during processing
+- Multiple tag lines are also supported.
 
 ####Test methods may also be tagged:
 
