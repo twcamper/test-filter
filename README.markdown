@@ -1,6 +1,6 @@
 #TestFilter#
 
-Builds a list of matching test files and a hash which maps test class names to lists of included test method.
+##Builds a list of matching test files and a hash which maps test class names to lists of included test method.
 
 Currently, only *Test::Unit* is supported, but *Rspec* support wouldn't be difficult.
 
