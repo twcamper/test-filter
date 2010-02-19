@@ -14,10 +14,8 @@ end
 desc "run a test method or class"
 task :run_by_name, [:test_name] do |t, args|
   require 'rake/runtest'
-  $LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '/test')
 
- p tf = TestFilter.new(:file_pattern => FILE_PATTERN, :test_name_white_list => args.test_name)
- p tf.globbed_files
- p Test::Unit::TestCase.tests_per_class = tf.filtered_tests
+  tf = TestFilter.new(:file_pattern => FILE_PATTERN, :test_name_white_list => args.test_name)
+  Test::Unit::TestCase.tests_per_class = tf.filtered_tests
   Rake.run_tests(FILE_PATTERN)
 end

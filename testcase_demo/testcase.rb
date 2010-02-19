@@ -3,6 +3,14 @@ require 'test/unit'
 module Test::Unit
   class TestCase
 
+    # command line arguments which could be individual test method names
+    @@args = Array.new(ARGV)
+    
+    # list of 1 or more test method names to follow a test file name
+    def TestCase.cmd_line_tests
+      @@args.select {|arg| arg =~ /^test_[\w_]+$/}
+    end
+
     def TestCase.tests_per_class=(tests_per_class)
       @@tests_per_class = tests_per_class
     end
@@ -61,5 +69,12 @@ module Test::Unit
       return suite
     end
   
+    def teardown
+      if run_count.eql?(TestCase.total_test_count)
+        # last test in suite has run: do suite level cleanup
+        # $selenium.stop
+        # report
+      end
+    end
   end
 end
