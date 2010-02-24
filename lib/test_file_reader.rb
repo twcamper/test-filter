@@ -1,3 +1,5 @@
+# Copyright 2010 ThoughtWorks, Inc. Licensed under the Apache License, Version 2.0.
+
 class TestFileReader
   DEF_PATTERN = /^[^#]*def\s+([\w_]+)/i
   END_PATTERN = /^\s*end\s*(#.*)?/

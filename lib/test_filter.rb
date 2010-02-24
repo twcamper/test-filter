@@ -1,3 +1,5 @@
+# Copyright 2010 ThoughtWorks, Inc. Licensed under the Apache License, Version 2.0.
+
 require File.expand_path(File.dirname(__FILE__)) + '/string_extension.rb'
 require File.expand_path(File.dirname(__FILE__)) + '/list.rb'
 require File.expand_path(File.dirname(__FILE__)) + '/test_name_matcher.rb'

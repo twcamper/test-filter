@@ -1,3 +1,5 @@
+# Copyright 2010 ThoughtWorks, Inc. Licensed under the Apache License, Version 2.0.
+
 class String
   def to_class_name
     gsub(/(^|_)([a-zA-Z])/) {$2.upcase}
