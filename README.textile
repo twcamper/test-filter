@@ -1,0 +1,103 @@
+h1. TestFilter
+
+h3. Builds a list of matching test files and a hash which maps test class names to lists of included test methods.
+
+Currently, only ??Test::Unit?? is supported, but ??Rspec?? support wouldn't be difficult.
+
+h4. Test files may be tagged, with this convention:
+
+<pre>
+    #Tags: smoke book_customer Find.Customer Story.1234 defect.98
+</pre>
+
+Any line beginning with @[optional white space]#Tags:@ anywhere within the file except within a test method def applies to the whole file.  This means that it applies to the
+test class, and that only one test class per file is supported.
+
+* Case insensitive, since all tags are downcased during processing
+* Multiple tag lines are also supported.
+
+h4. Test methods may also be tagged:
+
+<pre>
+class ExampleTest < Test::Unit::TestCase
+
+  def test_something_important #Tags: smoke core.story.1765
+    # do important testing stuff
+  end
+
+  def test_something_even_more_important  #tags:   broken core.defect.1331
+    #Tags: long_tag_describing_precise_functionality
+    # do other important testing stuff
+  end
+end
+</pre>
+
+h4. Filtering for Execution
+
+One way to filter tests for execution is to extend (ok, monkey patch) @Test::Unit@ as shown in @testcase_demo/testcase.rb@, run the filter in a @rake@ task, and set @TestCase.tests_per_class@.
+
+<pre>
+    FILE_PATTERN = "./**/*_test.rb"
+
+    task :customer_smoke do
+      require 'rake/runtest'
+    
+      tf = TestFilter.new(:file_pattern => FILE_PATTERN, :all => ['smoke', 'find.customer'], :none => ['dev', 'broken', 'deferred'])
+      Test::Unit::TestCase.tests_per_class = tf.filtered_tests
+      Rake.run_tests(FILE_PATTERN)
+    end
+</pre>
+
+h3. Paramaters to @TestFilter.new@
+
+* :*file_pattern*
+** optional glob pattern defaulting to @"**/*_test.rb"@
+* :*any*
+** list of tags. Any test that has ??any?? of these tags will be included (logical @OR@).
+* :*all*
+** list of tags. Any test that has ??all?? of these tags will be included (logical @AND@).
+* :*none*
+** list of tags. Any test that has ??any?? of these tags will be ??excluded??.  (overrides both @:any@ and @:all@)
+* :*test_name_white_list*
+** list of test names to include.
+* :*test_name_white_pattern*
+** regex pattern for test names to include.
+* :*test_name_black_list*
+** list of test names to exclude.
+* :*test_name_black_pattern*
+** regex pattern for test names to exclude.
+
+h3. tag matching vs. name matching
+
+Within the set of files found by @:file_pattern@, you can filter on either ??tags?? using tag lists @:any@, @:all@, or @:none@, or
+on ??test names?? using any of the @:test_name_@ white or black lists or patterns.
+
+For the name lists (@:test_name_white_list@ or @:test_name_black_list@), a ??name?? can be:
+
+* *class name*
+** @ExampleTest@
+** all test methods will be included
+* *method name*
+** @test_something_important@  
+** assumes the method name is unique across all files, or that you want all instances of a common name
+* *class* dot *method*
+** @ExampleTest.test_something_important@
+
+The name ??patterns?? (@:test_name_white_pattern@ or @:test_name_black_pattern@) will match on *??either??* a
+class name *??or??* a method name, but will *??not??* match on @Class.test_method@.
+
+h3. mixing ??tag?? matching and ??name?? matching
+
+# Tag matching is applied first, before any name matching.
+# Name matches override ??including?? tag matches.  (Tests included by @:all@ or @:any@ tags will be removed if they are in 
+the black list/pattern or are ??not?? in the white list/pattern.)
+# ??Excluding?? tag matches override name matches.  (Tests excluded by @:none@ tags will ??not?? be included, no matter what, not even if they are in the white list/pattern.)
+
+h3. keep it simple!
+
+With name lists, name patterns, and three kinds of tag lists, it is very easy to create self-cancelling filters that don't return what you want,
+so most of the time mixing ??tag?? matching with ??name?? matching is best avoided.
+
+h2. See also
+
+See the dummy test files under @test/test_data@ for the tagging possibilities, and @test/**_{i,u}test.rb@ for more examples of @TestFilter@ usage.
