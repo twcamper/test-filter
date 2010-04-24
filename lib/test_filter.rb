@@ -1,9 +1,11 @@
 # Copyright 2010 ThoughtWorks, Inc. Licensed under the Apache License, Version 2.0.
 
-require File.expand_path(File.dirname(__FILE__)) + '/string_extension.rb'
-require File.expand_path(File.dirname(__FILE__)) + '/list.rb'
-require File.expand_path(File.dirname(__FILE__)) + '/test_name_matcher.rb'
-require File.expand_path(File.dirname(__FILE__)) + '/test_file_reader.rb'
+$LOAD_PATH << File.expand_path(File.dirname(__FILE__))
+require 'string_extension'
+require 'list'
+require 'test_name_matcher'
+require 'test_file_reader'
+
 class TestFilter
 
   DEFAULT_FILE_PATTERN = "**/*_test.rb"
@@ -79,36 +81,6 @@ class TestFilter
       end
     end
     return tests
-  end
-
-  def all_tags
-    filtered_test_files.collect {|test_file| test_file.methods_and_tags.values}.flatten.sort.uniq
-  end
-
-  def long_test_names_and_tags
-    tests_to_tags = {}
-    filtered_test_files.each do |test_file|
-      test_file.methods_and_tags.each do |test_method, tag_array|
-        tests_to_tags[test_file.class_name + " - " + test_method] = tag_array
-      end
-    end
-    return tests_to_tags
-  end
-
-  def tests_per_tag(tag_list = all_tags)
-    tags_to_tests = {}
-    tag_list.each do |tag|
-      tests = []
-      long_test_names_and_tags.each do |test_name, tag_array|
-         tests << test_name if tag_array.include?(tag)
-      end
-      tags_to_tests[tag] = tests
-    end
-    return tags_to_tests
-  end 
-
-  def tests_per_filtering_tag
-    tests_per_tag(any + none)
   end
 
   def dump
