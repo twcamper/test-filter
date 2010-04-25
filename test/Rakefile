@@ -5,5 +5,4 @@ Rake::TestTask.new do |t|
   t.libs << "."
   t.libs << "../lib"
   t.test_files = FileList['**/*{u,i}test.rb']
-  t.verbose = true
 end
