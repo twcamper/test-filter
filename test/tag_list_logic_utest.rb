@@ -1,5 +1,5 @@
 require 'test/unit'
-require File.expand_path(File.dirname(__FILE__) + '/../lib/test_filter')
+require 'test_filter'
 
 class TagListLogicTest < Test::Unit::TestCase
   def test_remove_unless_include_tags_match

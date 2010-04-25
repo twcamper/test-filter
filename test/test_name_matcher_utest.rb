@@ -1,6 +1,6 @@
 
 require 'test/unit'
-require File.expand_path(File.dirname(__FILE__) + '/../lib/test_filter')
+require 'test_filter'
 
 class TestConstructor < Test::Unit::TestCase
   

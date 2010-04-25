@@ -1,5 +1,5 @@
 require 'test/unit'
-require File.expand_path(File.dirname(__FILE__) + '/../lib/test_filter_result')
+require 'test_filter_result'
 
 
 class CaseAndPatternTest < Test::Unit::TestCase
