@@ -1,3 +1,4 @@
+# Copyright 2010 ThoughtWorks, Inc. Licensed under the Apache License, Version 2.0.
 
 # Ensure array list format, given a nil, a space-delimited string, a single number, a single symbol, or an array
 module List
